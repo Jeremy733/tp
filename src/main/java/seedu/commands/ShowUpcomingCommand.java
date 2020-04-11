@@ -1,6 +1,7 @@
 package seedu.commands;
 
 import seedu.events.Event;
+import seedu.events.EventList;
 import seedu.exception.EscException;
 import seedu.subjects.SubjectList;
 
@@ -12,7 +13,7 @@ import java.util.Collections;
 /**
  * Command class for the ShowUpcomingCommand.
  */
-public class ShowUpcomingCommand extends Command {
+public class ShowUpcomingCommand extends ListCommand {
 
     public static final String COMMAND_WORD = "showupcoming";
 
@@ -32,19 +33,9 @@ public class ShowUpcomingCommand extends Command {
      * Show all upcoming events.
      */
     @Override
-    public void execute(SubjectList subjectList) throws EscException {
-        ArrayList<Event> events = subjectList.getEvents();
-        ArrayList<Event> upcomingEvents = new ArrayList<>();
-        LocalDate today = LocalDate.now();
-        for (Event event : events) {
-            LocalDate date = event.getDate();
-            long period = today.until(date, ChronoUnit.DAYS);
-            if (period <= dateRange && period >= 0) {
-                upcomingEvents.add(event);
-            }
-        }
-        Collections.sort(upcomingEvents);
-        subjectList.listUpcoming(upcomingEvents);
+    public void execute(SubjectList subjectList) {
+        EventList events = subjectList.getEventList();
+        events.listUpcoming(dateRange);
     }
 
 }

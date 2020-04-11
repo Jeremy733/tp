@@ -1,6 +1,7 @@
 package seedu.commands;
 
 import seedu.events.Event;
+import seedu.events.EventList;
 import seedu.exception.EscException;
 import seedu.subjects.SubjectList;
 
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Command class for the AddEventCommand.
  */
-public class AddEventCommand extends Command {
+public class AddEventCommand extends AddCommand {
 
     public static final String COMMAND_WORD = "addevent";
 
@@ -30,7 +31,8 @@ public class AddEventCommand extends Command {
      */
     @Override
     public void execute(SubjectList subjectList) throws EscException {
-        subjectList.addEvent(this.event);
+        EventList events = subjectList.getEventList();
+        events.addEvent(this.event);
     }
 
 

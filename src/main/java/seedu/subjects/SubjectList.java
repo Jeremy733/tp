@@ -1,41 +1,41 @@
 package seedu.subjects;
 
 import seedu.events.Event;
-import seedu.duke.UI;
+import seedu.events.EventList;
 import seedu.exception.EscException;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class SubjectList {
     private ArrayList<Subject> subjects;
-    private ArrayList<Event> events;
-    UI ui = new UI();
+    private EventList events;
 
     public SubjectList() {
         this.subjects = new ArrayList<Subject>();
-        this.events = new ArrayList<Event>();
+        this.events = new EventList();
     }
 
     /**
-     * Constructor for loading SubjectList.
-     * @param returnObj Arraylist of subjects and exams.
+     * Constructor for loading SubjectList from file.
+     * @param returnObj ArrayList of 2 ArrayLists; subjects (0) and events (1).
      */
+    @SuppressWarnings("unchecked")
     public SubjectList(ArrayList returnObj) {
         this.subjects = (ArrayList<Subject>) returnObj.get(0);
-        this.events = (ArrayList<Event>) returnObj.get(1);
+        this.events = new EventList((ArrayList<Event>) returnObj.get(1));
     }
 
-    public SubjectList(ArrayList<Subject> subjects, ArrayList<Event> eventDates) {
+    public SubjectList(ArrayList<Subject> subjects, EventList events) {
         this.subjects = subjects;
-        this.events = eventDates;
+        this.events = events;
     }
 
     public ArrayList<Subject> getSubjects() {
         return this.subjects;
     }
 
-    public ArrayList<Event> getEvents() {
+    public EventList getEventList() {
         return this.events;
     }
 
@@ -49,13 +49,13 @@ public class SubjectList {
             subjectDuplicateRemind(subject);
         } else {
             subjects.add(subject);
-            System.out.println(subject.getSubject() + " has been added.");
+            System.out.println(subject.getSubject() + " has been added.\n");
             listSubjects(subjects);
         }
     }
 
     /**
-     *Checks for duplicate subject.
+     * Checks for duplicate subject.
      * @param subject Subject to be checked.
      */
     public boolean checkSubjectDuplicate(Subject subject) {
@@ -69,7 +69,7 @@ public class SubjectList {
     }
 
     /**
-     *Checks for duplicate subject and reminds user of existing subjects.
+     * Checks for duplicate subject and reminds user of existing subjects.
      * @param subject Subject to be checked.
      */
     public void subjectDuplicateRemind(Subject subject) {
@@ -91,9 +91,8 @@ public class SubjectList {
             throw new EscException("The subject list is empty.");
         }
         try {
-            System.out.print(subjects.get(index).getSubject() + " has been deleted");
+            System.out.println(subjects.get(index).getSubject() + " has been deleted");
             subjects.remove(index);
-            System.out.println();
             listSubjects(subjects);
         } catch (IndexOutOfBoundsException e) {
             throw new EscException("The subject item does not exist.");
@@ -131,45 +130,6 @@ public class SubjectList {
             for (int i = 0; i < subjects.size(); i++) {
                 int j = i + 1;
                 System.out.println(j + ". " + subjects.get(i).getSubject());
-            }
-        }
-    }
-
-    /**
-     * Adds an event to the deck.
-     * @param event Event to be added.
-     */
-    public void addEvent(Event event) {
-        events.add(event);
-    }
-
-    /**
-     * Removes an event from the deck.
-     * @param index Index of event to be removed.
-     */
-    public void removeEvent(int index) throws EscException {
-        if (this.events.size() == 0) {
-            throw new EscException("The event list is empty.");
-        }
-        try {
-            events.remove(index);
-        } catch (IndexOutOfBoundsException e) {
-            throw new EscException("The event item does not exist.");
-        }
-    }
-
-    /**
-     * Lists all upcoming events.
-     * @param events List of upcoming events.
-     */
-    public static void listUpcoming(ArrayList<Event> events) {
-        if (events.size() == 0) {
-            System.out.println("No upcoming events.");
-        } else {
-            System.out.println("Here is the list of upcoming events.");
-            for (int i = 0; i < events.size(); i++) {
-                int j = i + 1;
-                System.out.println(j + ". " + events.get(i).toString());
             }
         }
     }
